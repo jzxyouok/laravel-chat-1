@@ -39,8 +39,11 @@ Route::group(array('middleware' => 'auth'), function()
 
 			Route::get('dashboard', ['as' => 'backend/dashboard', 'uses' => 'DashboardController@index']);
 
+			Route::get('data_chart', ['as' => 'backend/data_chart', 'uses' => 'DashboardController@data_chart']);
+
 
 			Route::get('content', ['as' => 'backend/content', 'uses' => 'ContentController@index']);
+
 
 			Route::get('content/create', 
 				['as' => 'backend/content/create', 'uses' => 'ContentController@create']
