@@ -39,6 +39,29 @@ Route::group(array('middleware' => 'auth'), function()
 
 			Route::get('dashboard', ['as' => 'backend/dashboard', 'uses' => 'DashboardController@index']);
 
+
+			Route::get('content', ['as' => 'backend/content', 'uses' => 'ContentController@index']);
+
+			Route::get('content/create', 
+				['as' => 'backend/content/create', 'uses' => 'ContentController@create']
+				);
+
+			Route::post('content/insert', 
+				['as' => 'backend/content/insert', 'uses' => 'ContentController@insert']
+				);
+
+			Route::get('content/edit/{id}', 
+				['as' => 'backend/content/edit', 'uses' => 'ContentController@edit']
+				);
+
+			Route::put('content/edit/{id}', 
+				['as' => 'backend/content/update', 'uses' => 'ContentController@update']
+				);
+
+			Route::get('//delete/{id}', 
+				['as' => 'backend/content/delete', 'uses' => 'ContentController@delete']
+				);  
+
 		});
 	});
 });

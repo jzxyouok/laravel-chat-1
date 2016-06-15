@@ -14,11 +14,9 @@ class CreateCountsTable extends Migration
     {
         Schema::create('counts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('sub_title');
-            $table->string('content_to_count');
+            $table->string('content');
+            $table->string('title_content');
             $table->string('category');
-            $table->string('count');
             $table->timestamps();
         });
     }

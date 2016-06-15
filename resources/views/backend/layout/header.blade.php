@@ -50,8 +50,8 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="sub-menu">
-            <li><a  href="">New</a></li>
-            <li><a  href="">List</a></li>
+            <li><a  href="{{ route('backend/content/create') }}">New</a></li>
+            <li><a  href="{{ route('backend/content') }}">List</a></li>
           </ul>
         </li>
       </ul>

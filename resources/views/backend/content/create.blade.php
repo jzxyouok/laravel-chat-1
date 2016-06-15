@@ -1,10 +1,10 @@
-@extends('admin_layout')
-@section('admin_content')
+@extends('backend_layout')
+@section('backend_content')
 <div class="col-md-12">
 	<ul class="breadcrumb">
-		<li><a href="{{ route('admin/dashboard')}}">Dashboard</a></li>
-		<li ><a href="{{ route('admin/user') }}">User</a></li>
-		<li class="active"><a>Add User</a></li>
+		<li><a href="{{ route('backend/dashboard')}}">Dashboard</a></li>
+		<li ><a href="{{ route('backend/content') }}">Content</a></li>
+		<li class="active"><a>Add Content</a></li>
 	</ul>
 </div>
 <div class="col-md-12" align="center">
@@ -18,48 +18,38 @@
 			<i class="fa fa-plus" style="margin-top: 5px;"></i>&nbsp;<b><i>Add Data</i></b>
 		</div>
 		<div class="panel-body">
-			{{ Form::open(array('route' => 'admin/user/insert')) }}
+			{{ Form::open(array('route' => 'backend/content/insert')) }}
 			<div class="form-group">
-				<label>name :</label>
-				{{ Form::text('name' , '', array('class'=>'form-control')) }}
-				@if($errors->has('name'))
-				{{ $errors->first('name') }}
+				<label>title :</label>
+				{{ Form::text('title' , '', array('class'=>'form-control')) }}
+				@if($errors->has('title'))
+				<span style="color:red">{{ $errors->first('title') }}</span>
 				@endif
 			</div>
 			<div class="form-group">
-				<label>Password :</label>
-				{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'*************')) }}
-				@if($errors->has('password'))
-				{{ $errors->first('password') }}
+				<label>Description :</label>
+				{{ Form::textarea('description' , '', array('class'=>'form-control')) }}
+				@if($errors->has('description'))
+				<span style="color:red">{{ $errors->first('description') }}</span>
 				@endif
 			</div>
 			<div class="form-group">
-				<label>Email :</label>
-				{{ Form::text('email' , '', array('class'=>'form-control')) }}
-				@if($errors->has('email'))
-				{{ $errors->first('email') }}
-				@endif
+				<label>category :</label>
+				{{ Form::select('category', $category, '',array('class'=>'form-control')) }}
 			</div>
 			<div class="form-group">
-				<label>Active :</label>
+				<label>active :</label>
 				{{ Form::select('active', $active, '',array('class'=>'form-control')) }}
-				@if($errors->has('active'))
-				{{ $errors->first('active') }}
-				@endif
 			</div>
 			<div class="form-group">
-				<label>Level :</label>
-				{{ Form::select('level', $level, '',array('class'=>'form-control')) }}
-				@if($errors->has('level'))
-				{{ $errors->first('level') }}
+				<label>Cover content (Image) :</label>
+				<input type="file" name="file" id="pick_file" />
+				@if($errors->has('file'))
+				<span style="color:red">{{ $errors->first('file') }}</span>
 				@endif
 			</div>
-			<div class="form-group">
-				<label>Mother's Name :</label>
-				{{ Form::select('parent', $list_parent, '',array('class'=>'form-control')) }}
-				@if($errors->has('parent'))
-				{{ $errors->first('parent') }}
-				@endif
+			<div>
+				<img src="{{asset('resources/assets/image')}}/no_photo.png" id="show_file" style="height:150px;width:150px;">
 			</div>
 			<div class="form-group" align="center">
 				{{ Form::submit('Submit', array('class'=>'btn btn-success')) }}

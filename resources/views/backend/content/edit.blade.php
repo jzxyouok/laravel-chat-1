@@ -1,10 +1,10 @@
-@extends('admin_layout')
-@section('admin_content')
+@extends('backend_layout')
+@section('backend_content')
 <div class="col-md-12">
 	<ul class="breadcrumb">
-		<li><a href="{{ route('admin/dashboard')}}">Dashboard</a></li>
-		<li ><a href="{{ route('admin/user') }}">User</a></li>
-		<li class="active"><a>Edit User</a></li>
+		<li><a href="{{ route('backend/dashboard')}}">Dashboard</a></li>
+		<li ><a href="{{ route('backend/content') }}">Content</a></li>
+		<li class="active"><a>Edit Content</a></li>
 	</ul>
 </div>
 <div class="col-md-12" align="center">
@@ -18,48 +18,42 @@
 			<i class="fa fa-pencil" style="margin-top: 5px;"></i>&nbsp;<b><i>Edit Data</i></b>
 		</div>
 		<div class="panel-body">
-			{{ Form::model($list_data, array('route' => array('admin/user/edit', $list_data->id), 'method' => 'PUT')) }}
+			{{ Form::model($list_data, array('route' => array('backend/content/edit', $list_data->id), 'method' => 'PUT')) }}
 			<div class="form-group">
-				<label>name :</label>
-				{{ Form::text('name' , $list_data->name, array('class'=>'form-control')) }}
-				@if($errors->has('name'))
-				{{ $errors->first('name') }}
+				<label>title :</label>
+				{{ Form::text('title' , $list_data->title, array('class'=>'form-control')) }}
+				@if($errors->has('title'))
+				<span style="color:red">{{ $errors->first('title') }}</span>
 				@endif
 			</div>
 			<div class="form-group">
-				<label>Password :</label>
-				{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'*************')) }}
-				@if($errors->has('password'))
-				{{ $errors->first('password') }}
+				<label>Description :</label>
+				{{ Form::textarea('description' , $list_data->description, array('class'=>'form-control')) }}
+				@if($errors->has('description'))
+				<span style="color:red">{{ $errors->first('description') }}</span>
 				@endif
 			</div>
 			<div class="form-group">
-				<label>Email :</label>
-				{{ Form::text('email' , $list_data->email, array('class'=>'form-control')) }}
-				@if($errors->has('email'))
-				{{ $errors->first('email') }}
-				@endif
+				<label>category :</label>
+				{{ Form::select('category', $category, $list_data->category,array('class'=>'form-control')) }}
 			</div>
 			<div class="form-group">
-				<label>Active :</label>
+				<label>active :</label>
 				{{ Form::select('active', $active, $list_data->active,array('class'=>'form-control')) }}
-				@if($errors->has('active'))
-				{{ $errors->first('active') }}
-				@endif
 			</div>
 			<div class="form-group">
-				<label>Level :</label>
-				{{ Form::select('level', $level, $list_data->level,array('class'=>'form-control')) }}
-				@if($errors->has('level'))
-				{{ $errors->first('level') }}
+				<label>Cover content (Image) :</label>
+				<input type="file" name="file" id="pick_file" />
+				@if($errors->has('file'))
+				<span style="color:red">{{ $errors->first('file') }}</span>
 				@endif
 			</div>
-			<div class="form-group">
-				<label>Mother's Name :</label>
-				{{ Form::select('parent', $list_parent, $list_data->parent_id,array('class'=>'form-control')) }}
-				@if($errors->has('parent'))
-				{{ $errors->first('parent') }}
-				@endif
+			<div>
+				<?php if ($list_data->image !=""): ?>
+					<img src="{{asset('resources/assets/image/landing_page')}}/{{$list_data->id}}/{{$list_data->image}}" id="show_file" style="height:150px;width:150px;">
+				<?php else: ?>
+					<img src="{{asset('resources/assets/image')}}/no_photo.png" id="show_file" style="height:150px;width:150px;">
+				<?php endif ?>
 			</div>
 			<div class="form-group" align="center">
 				{{ Form::submit('Submit', array('class'=>'btn btn-success')) }}
