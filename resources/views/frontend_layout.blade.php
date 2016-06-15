@@ -16,10 +16,10 @@
 </body>
 <script src="{{ asset('resources/assets/js/jquery-2.2.0.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/bootstrap.js') }}"></script>
-<script src="{{ asset('resources/assets/js/frontend/creativ.js') }}"></script>
-<script src="{{ asset('resources/assets/js/frontend/jquery_easing.min.js') }}"></script>
-<script src="{{ asset('resources/assets/js/frontend/scrollreveal.min.js') }}"></script>
-<script src="{{ asset('resources/assets/js/frontend/jquery.fittext.js') }}"></script>
 <script src="{{ asset('resources/assets/js/frontend/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('resources/assets/js/frontend/jquery.fittext.js') }}"></script>
+<script src="{{ asset('resources/assets/js/frontend/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('resources/assets/js/frontend/scrollreveal.js') }}"></script>
+<script src="{{ asset('resources/assets/js/frontend/creative.js') }}"></script>
 @yield('include_js_content')
 </html>
