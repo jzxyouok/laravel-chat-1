@@ -11,6 +11,34 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', ['as' => '/', 'uses' => 'HomeController@index']);
+
+
+Route::get('login',['as' => 'login', function () {
+
+	if (isset($_COOKIE['remember_me_cookie']) && Auth::user() != "") 
+	{   
+		return Redirect::to('backend/dashboard');  
+	}
+	else
+	{
+		return View('frontend.login');
+	}
+
+}]);
+
+Route::get('logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
+
+Route::post('login/auth', ['as' => 'login/auth', 'uses' => 'LoginController@auth']);
+
+Route::group(array('middleware' => 'auth'), function()
+{
+	Route::group(['namespace' => 'Backend'], function()
+	{
+		Route::group(['prefix' => 'backend'], function () {
+
+			Route::get('dashboard', ['as' => 'backend/dashboard', 'uses' => 'DashboardController@index']);
+
+		});
+	});
 });
