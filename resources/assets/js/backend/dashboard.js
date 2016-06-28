@@ -1,68 +1,100 @@
-$(document).ready(function(){
-    $.ajax({
-        url:"data_chart",
-        type: 'GET',
-        dataType: "json",
-        success: function(data){
-            show_data(data);
-        }
-    });
+$(document).ready(function() {
+
+
 });
-function show_data(data)
+
+var socket = new WebSocket("ws://127.0.0.1:5000");
+var open =  false;
+
+function getDate()
+{
+	var d = new Date();
+	d.getHours();
+	d.getMinutes();
+	d.getSeconds();
+	return d;
+}
+
+function addMessage(data)
 {
 
-    $(function () {
-        $('#container').highcharts({
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: 'How Much People Saw Our Company'
-            },
-            xAxis: {
-                categories: ['Access To Home', 'Access To Dashboard'],
-                title: {
-                    text: null
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Population (time/hit)',
-                    align: 'high'
-                },
-                labels: {
-                    overflow: 'justify'
-                }
-            },
-            tooltip: {
-                valueSuffix: ' time'
-            },
-            plotOptions: {
-                bar: {
-                    dataLabels: {
-                        enabled: true
-                    }
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -40,
-                y: 80,
-                floating: true,
-                borderWidth: 1,
-                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                shadow: true
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'Year '+data.year,
-                data: [data.count_home, data.count_login]
-            }]
-        });
-    });
+	var new_html = '<li class="right clearfix">'+
+	'<span class="chat-img pull-right">'+
+	'<img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />'+
+	'</span>'+
+	'<div class="chat-body clearfix">'+
+	'<div class="header">'+
+	'<small class=" text-muted">'+
+	'<span class="glyphicon glyphicon-time"></span>'+getDate()+''+
+	'</small>'+
+	'<strong class="pull-right primary-font">'+  +'</strong>'+
+	'</div>'+
+	'<p>'+data.msg.message+'</p>'+
+	'</div>'+
+	'</li>';
+
+	$("#section-chat").append(new_html);	
 }
+
+function sendMessage()
+{
+	var val_msg = $("#textbox-msg").val();
+	socket.send(JSON.stringify({
+		msg : {
+			message : val_msg,
+			iduser : val_msg,
+			file : val_msg,
+		},
+	}));
+
+	var new_html = '<li class="right clearfix">'+
+	'<span class="chat-img pull-right">'+
+	'<img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />'+
+	'</span>'+
+	'<div class="chat-body clearfix">'+
+	'<div class="header">'+
+	'<small class=" text-muted">'+
+	'<span class="glyphicon glyphicon-time"></span>'+getDate()+''+
+	'</small>'+
+	'<strong class="pull-right primary-font">Me</strong>'+
+	'</div>'+
+	'<p>'+val_msg+'</p>'+
+	'</div>'+
+	'</li>';
+
+	$("#section-chat").append(new_html);	
+	$('#textbox-msg').val("")
+}
+
+
+socket.onopen =  function(){
+	open= true;
+	console.log("Connection is open");
+
+}
+
+socket.onmessage =  function(evt){
+	var data = JSON.parse(evt.data);
+	addMessage(data);
+	console.log("data",data);
+}
+
+socket.onclose =  function(){
+	open= false;
+	console.log("Connection is close");	
+}
+
+$("#textbox-msg").keypress(function(e) {
+	if(e.which == 13) {
+		console.log('You pressed enter!');
+		sendMessage();
+	}
+});
+
+
+
+
+
+
+
+

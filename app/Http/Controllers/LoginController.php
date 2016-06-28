@@ -27,7 +27,7 @@ class LoginController extends Controller
         Auth::logout();
         Session::flush();
         setcookie('remember_me_cookie','',time()-3600,'/');
-        return Redirect::route('/');
+        return Redirect::route('login');
     }
 
     public function auth(Request $request) 
@@ -45,7 +45,7 @@ class LoginController extends Controller
 
         if ($validator->fails()) 
         {
-            return Redirect::to('login')
+            return Redirect::to('/')
             ->withErrors($validator)
             ->withInput($request->except('password'));
         } 
@@ -59,22 +59,6 @@ class LoginController extends Controller
 
             if (Auth::attempt($userdata))
             {
-
-                if ($remember_me) 
-                {
-                    setcookie('remember_me_cookie','on',time()+3600,'/');
-
-                }
-                else
-                {
-                    setcookie('remember_me_cookie','on',-1,'/');              
-                }
-
-                $content = '/login';
-                $title_content = 'login';
-                $category = 'url';
-
-                \App\Count::create(compact('content', 'title_content', 'category'));
 
                 return Redirect::to('backend/dashboard');  
 
