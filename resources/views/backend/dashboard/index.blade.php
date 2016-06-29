@@ -4,25 +4,25 @@
 @stop
 
 @section('backend_content')
- <section class="col-md-12 blue">
-        <nav class="my-nav navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <b class="navbar-brand" href=""><i class="fa fa-home">&nbsp;Dash</i>board</b>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                  <li><a href="{{ route('logout') }}"><i class="fa fa-mail-forward"></i>&nbsp;Log Out</a></li>
-              </ul>
-          </div>
-      </nav>
-  </section>
-  <section style="min-height:608px;">
+<section class="col-md-12 blue">
+    <nav class="my-nav navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <b class="navbar-brand" href=""><i class="fa fa-home">&nbsp;Dash</i>board</b>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ route('logout') }}"><i class="fa fa-mail-forward"></i>&nbsp;Log Out</a></li>
+          </ul>
+      </div>
+  </nav>
+</section>
+<section style="min-height:608px;">
     <div class="col-md-12" style="padding-top: 20px;">
         <div class="container">
             <div class="row">
@@ -44,6 +44,7 @@
                                     </button>
                                 </span>
                             </div>
+                            <div class="file_button_container" width="100%"><input type="file" /></div>
                         </div>
                     </div>
                 </div>
@@ -59,3 +60,19 @@
 @section('backend_include_js_content')	
 <script src="{{ asset('resources/assets/js/backend/dashboard.js') }}"></script>
 @stop
+
+<style type="text/css">
+   .file_button_container,
+   .file_button_container input {
+     height: 47px;
+     width: 263px;
+ }
+
+ .file_button_container {
+     background: transparent url(http://i.stack.imgur.com/BT5AB.png) left top no-repeat;
+ }
+
+ .file_button_container input {
+     opacity: 0;
+ }
+</style>

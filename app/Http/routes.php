@@ -28,6 +28,19 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'LoginController@logout']);
 
 Route::post('login/auth', ['as' => 'login/auth', 'uses' => 'LoginController@auth']);
 
+
+
+Route::get('register', ['as' => 'register', 'uses' => 'RegisterController@index']);
+
+Route::post('register/submit', ['as' => 'register/submit', 'uses' => 'RegisterController@submit']);
+
+Route::get('request_mail', ['as' => 'request_mail', 'uses' => 'RegisterController@request_mail']);
+
+Route::post('resend', ['as' => 'resend', 'uses' => 'RegisterController@resend']);
+
+Route::get('register/activate/{id}', ['as' => 'register/activate', 'uses' => 'RegisterController@activate']);
+
+
 Route::group(array('middleware' => 'auth'), function()
 {
 	Route::group(['namespace' => 'Backend'], function()
@@ -35,6 +48,7 @@ Route::group(array('middleware' => 'auth'), function()
 		Route::group(['prefix' => 'backend'], function () {
 
 			Route::get('dashboard', ['as' => 'backend/dashboard', 'uses' => 'DashboardController@index']);
+			Route::get('public_data', ['as' => 'backend/public_data', 'uses' => 'DashboardController@public_data']);
 
 		});
 	});

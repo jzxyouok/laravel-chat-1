@@ -11,11 +11,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        // DB::table('users')->delete();
+        $data=\App\User::where('email', '=', 'admin@mail.com')->delete();
+
         DB::table('users')->insert([
         'name' => 'admin',
         'email' => 'admin@mail.com',
-        'password' =>  Hash::make('admin'),
-        'remember_token' =>  Hash::make('admin@mail.com'),
+        'password' =>  Hash::make('admin'),        
+        'avatar' =>  'admin.ico',        
+        'created_at' =>  date("Y-m-d H:i:s") ,        
+        'updated_at' =>  date("Y-m-d H:i:s"),
         ]);
     }
 }

@@ -16,4 +16,15 @@ class DashboardController extends Controller
     {
     	return View::make('backend.dashboard.index');
     }
+    public function public_data()
+    {
+    	$data = array(
+    		'avatar' => Auth::user()->avatar,
+    		'username' => Auth::user()->name,
+    	 );
+    	return response($data);
+    }
 }
+
+
+

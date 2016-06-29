@@ -32,7 +32,8 @@
 						{{ Form::submit('Login', array('class'=>'btn btn-success')) }}
 					</div>
 					<div class="form-group">
-						<p class="text-center m-t-xs text-sm"><b>Do not have an account? please contact your administrator</b></p> 
+						<p class="text-center m-t-xs text-sm"><b>Do not have an account?</b></p> 
+						<a href="{{ route('register') }}" class="btn btn-success btn-block m-t-md">Create an account</a>
 					</div>
 					{{ Form::close() }}
 				</div>

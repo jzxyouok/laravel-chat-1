@@ -26,7 +26,7 @@ class LoginController extends Controller
     {
         Auth::logout();
         Session::flush();
-        setcookie('remember_me_cookie','',time()-3600,'/');
+        setcookie('username_login','',time()-3600,'/');
         return Redirect::route('login');
     }
 
@@ -58,9 +58,17 @@ class LoginController extends Controller
             ];
 
             if (Auth::attempt($userdata))
-            {
-
-                return Redirect::to('backend/dashboard');  
+            {   
+                if (Auth::user()->active == 1) {
+                    setcookie('username_login',Auth::user()->name,-1,'/');              
+                    return Redirect::to('backend/dashboard');  
+                }
+                else
+                {
+                    Auth::logout();
+                    Session::flush();
+                    return Redirect::route('login')->withMessage('Your Account Is not Activated Yet');
+                }
 
             }
             else

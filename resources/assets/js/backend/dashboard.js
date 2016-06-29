@@ -1,7 +1,23 @@
 $(document).ready(function() {
-
-
+	console.log("welcome");
+	ge_public_data();
 });
+
+function getCookie(cname) {
+	var name = cname + "=";
+	var ca = document.cookie.split(';');
+	for(var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+}
+
 
 var socket = new WebSocket("ws://127.0.0.1:5000");
 var open =  false;
@@ -20,14 +36,14 @@ function addMessage(data)
 
 	var new_html = '<li class="right clearfix">'+
 	'<span class="chat-img pull-right">'+
-	'<img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />'+
+	'<img src="http://placehold.it/50/FA6F57/fff&text='+data.iduser+'" alt="User Avatar" class="img-circle" />'+
 	'</span>'+
 	'<div class="chat-body clearfix">'+
 	'<div class="header">'+
 	'<small class=" text-muted">'+
 	'<span class="glyphicon glyphicon-time"></span>'+getDate()+''+
 	'</small>'+
-	'<strong class="pull-right primary-font">'+  +'</strong>'+
+	'<strong class="pull-right primary-font">'+ data.iduser +'</strong>'+
 	'</div>'+
 	'<p>'+data.msg.message+'</p>'+
 	'</div>'+
@@ -38,32 +54,38 @@ function addMessage(data)
 
 function sendMessage()
 {
-	var val_msg = $("#textbox-msg").val();
-	socket.send(JSON.stringify({
-		msg : {
-			message : val_msg,
-			iduser : val_msg,
-			file : val_msg,
-		},
-	}));
+	if (open == false) 
+	{
+		alert("Connection is lost please reload the page or contact administrator");
+	}
+	else
+	{
+		var val_msg = $("#textbox-msg").val();
+		socket.send(JSON.stringify({
+			msg : {
+				message : val_msg,
+				iduser : getCookie("username_login"),
+			},
+		}));
 
-	var new_html = '<li class="right clearfix">'+
-	'<span class="chat-img pull-right">'+
-	'<img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />'+
-	'</span>'+
-	'<div class="chat-body clearfix">'+
-	'<div class="header">'+
-	'<small class=" text-muted">'+
-	'<span class="glyphicon glyphicon-time"></span>'+getDate()+''+
-	'</small>'+
-	'<strong class="pull-right primary-font">Me</strong>'+
-	'</div>'+
-	'<p>'+val_msg+'</p>'+
-	'</div>'+
-	'</li>';
+		var new_html = '<li class="right clearfix">'+
+		'<span class="chat-img pull-right">'+
+		'<img src="../resources/assets/image/no_photo.png" alt="User Avatar" class="img-circle" />'+
+		'</span>'+
+		'<div class="chat-body clearfix">'+
+		'<div class="header">'+
+		'<small class=" text-muted">'+
+		'<span class="glyphicon glyphicon-time"></span>'+getDate()+''+
+		'</small>'+
+		'<strong class="pull-right primary-font">'+getCookie("username_login")+'</strong>'+
+		'</div>'+
+		'<p>'+val_msg+'</p>'+
+		'</div>'+
+		'</li>';
 
-	$("#section-chat").append(new_html);	
-	$('#textbox-msg').val("")
+		$("#section-chat").append(new_html);	
+		$('#textbox-msg').val("");
+	}
 }
 
 
@@ -91,10 +113,29 @@ $("#textbox-msg").keypress(function(e) {
 	}
 });
 
+function ge_public_data()
+{
+	$.ajax({
+			url: '../backend/public_data',
+			method: 'get',
+			dataType: 'json',
+			success: function(data){
+				console.log("======================================================="); 
+				console.log('succes: ',data);
+				console.log("======================================================="); 
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				console.log("======================================================="); 
+				console.log("Status: " + textStatus); 
+				console.log("Error: " + errorThrown); 
+				console.log("======================================================="); 
+				alert("something when wrong");
+			} 
+		});
+}
 
 
 
 
-
-
+// Auth::user()->active
 
