@@ -59,7 +59,8 @@ class LoginController extends Controller
 
             if (Auth::attempt($userdata))
             {   
-                if (Auth::user()->active == 1) {
+                if (Auth::user()->active == 1) 
+                {
                     setcookie('username_login',Auth::user()->name,-1,'/');              
                     return Redirect::to('backend/dashboard');  
                 }

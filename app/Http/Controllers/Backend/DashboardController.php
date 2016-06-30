@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use View;
 use DB;
+use Auth;
 
 class DashboardController extends Controller
 {

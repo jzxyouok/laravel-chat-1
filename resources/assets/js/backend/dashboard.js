@@ -1,7 +1,10 @@
 $(document).ready(function() {
 	console.log("welcome");
-	ge_public_data();
+	get_public_data();
 });
+
+var avatar = "";
+var username = "";
 
 function getCookie(cname) {
 	var name = cname + "=";
@@ -33,17 +36,18 @@ function getDate()
 
 function addMessage(data)
 {
+	var new_username = data.msg.iduser.replace("+", " ");
 
 	var new_html = '<li class="right clearfix">'+
-	'<span class="chat-img pull-right">'+
-	'<img src="http://placehold.it/50/FA6F57/fff&text='+data.iduser+'" alt="User Avatar" class="img-circle" />'+
+	'<span class="chat-img pull-right" style="margin-left:10px;">'+
+	'<img src="../resources/assets/image/'+data.msg.client_avatar+'" alt="User Avatar" class="img-circle" />'+
 	'</span>'+
 	'<div class="chat-body clearfix">'+
 	'<div class="header">'+
 	'<small class=" text-muted">'+
 	'<span class="glyphicon glyphicon-time"></span>'+getDate()+''+
 	'</small>'+
-	'<strong class="pull-right primary-font">'+ data.iduser +'</strong>'+
+	'<strong class="pull-right primary-font">'+ new_username +'</strong>'+
 	'</div>'+
 	'<p>'+data.msg.message+'</p>'+
 	'</div>'+
@@ -60,24 +64,28 @@ function sendMessage()
 	}
 	else
 	{
+
+		var new_username = username.replace("+", " ");
+
 		var val_msg = $("#textbox-msg").val();
 		socket.send(JSON.stringify({
 			msg : {
 				message : val_msg,
 				iduser : getCookie("username_login"),
+				client_avatar : avatar,
 			},
 		}));
 
 		var new_html = '<li class="right clearfix">'+
-		'<span class="chat-img pull-right">'+
-		'<img src="../resources/assets/image/no_photo.png" alt="User Avatar" class="img-circle" />'+
+		'<span class="chat-img pull-right" style="margin-left:10px;">'+
+		'<img src="../resources/assets/image/'+avatar+'" alt="User Avatar" class="img-circle" />'+
 		'</span>'+
 		'<div class="chat-body clearfix">'+
 		'<div class="header">'+
 		'<small class=" text-muted">'+
 		'<span class="glyphicon glyphicon-time"></span>'+getDate()+''+
 		'</small>'+
-		'<strong class="pull-right primary-font">'+getCookie("username_login")+'</strong>'+
+		'<strong class="pull-right primary-font">  '+new_username+'</strong>'+
 		'</div>'+
 		'<p>'+val_msg+'</p>'+
 		'</div>'+
@@ -113,29 +121,27 @@ $("#textbox-msg").keypress(function(e) {
 	}
 });
 
-function ge_public_data()
+function get_public_data()
 {
 	$.ajax({
-			url: '../backend/public_data',
-			method: 'get',
-			dataType: 'json',
-			success: function(data){
-				console.log("======================================================="); 
-				console.log('succes: ',data);
-				console.log("======================================================="); 
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) { 
-				console.log("======================================================="); 
-				console.log("Status: " + textStatus); 
-				console.log("Error: " + errorThrown); 
-				console.log("======================================================="); 
-				alert("something when wrong");
-			} 
-		});
+		url: '../backend/public_data',
+		method: 'get',
+		dataType: 'json',
+		success: function(data){
+			console.log("======================================================="); 
+			console.log('succes: ',data);
+			console.log("======================================================="); 
+			avatar = data.avatar;
+			username = data.username;
+
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			console.log("======================================================="); 
+			console.log("Status: " + textStatus); 
+			console.log("Error: " + errorThrown); 
+			console.log("======================================================="); 
+			alert("something when wrong");
+		} 
+	});
 }
-
-
-
-
-// Auth::user()->active
 

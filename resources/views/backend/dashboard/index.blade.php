@@ -44,7 +44,6 @@
                                     </button>
                                 </span>
                             </div>
-                            <div class="file_button_container" width="100%"><input type="file" /></div>
                         </div>
                     </div>
                 </div>
@@ -60,19 +59,3 @@
 @section('backend_include_js_content')	
 <script src="{{ asset('resources/assets/js/backend/dashboard.js') }}"></script>
 @stop
-
-<style type="text/css">
-   .file_button_container,
-   .file_button_container input {
-     height: 47px;
-     width: 263px;
- }
-
- .file_button_container {
-     background: transparent url(http://i.stack.imgur.com/BT5AB.png) left top no-repeat;
- }
-
- .file_button_container input {
-     opacity: 0;
- }
-</style>

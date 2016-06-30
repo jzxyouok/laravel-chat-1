@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         'email' => 'admin@mail.com',
         'password' =>  Hash::make('admin'),        
         'avatar' =>  'admin.ico',        
+        'active' =>  '1',        
         'created_at' =>  date("Y-m-d H:i:s") ,        
         'updated_at' =>  date("Y-m-d H:i:s"),
         ]);

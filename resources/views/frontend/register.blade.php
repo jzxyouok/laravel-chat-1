@@ -10,7 +10,7 @@
 			<div class="col-md-4">
 				<div class="login-container">
 					<legend>Sign Up</legend>
-					<div class="col-md-12" align="center">
+					<div class="col-md-12" style="margin:10px;" align="center">
 						@if(Session::has('message'))
 						{{ Session::get('message') }}
 						@endif
@@ -48,7 +48,7 @@
 						{{ Form::submit('Register', array('class'=>'btn btn-success')) }}
 					</div>
 					<div class="form-group">
-						<p class="text-center m-t-xs text-sm"><b>Not Recieve Email?</b></p> 
+						<p class="text-center m-t-xs text-sm"><b>Not Recieve Email? or Back to <a href="{{route('login')}}">Login</a></b></p> 
 						<a href="{{ route('request_mail') }}" class="btn btn-success btn-block m-t-md">Request Mail</a>
 					</div>
 					{{ Form::close() }}

@@ -14,6 +14,7 @@ use Redirect;
 use Hash;
 use DB;
 use Crypt;
+use Config;
 
 
 class RegisterController extends Controller
@@ -61,19 +62,30 @@ class RegisterController extends Controller
             $name_file = str_random(30).'-'.$request->file('file')->getClientOriginalName();
             $request->file('file')->move('resources/assets/image/',$name_file);
             $avatar = $name_file;
+
+            // for print out setting
+            // dd(Config::get('mail'));
+
+            // testing mail
+            // Mail::send('mailing.test_mail', ['user' => 'israj'], function ($message) {
+            //     $message->from('93israj.alwan.haliri@gmail.com', 'Administrator');
+            //     $message->to('israj.haliri@gmail.com', 'israj')->subject('Register Almost Complete');
+            // });
+
+            // echo "done";
+            // die();
             
             $UserData = \App\User::create(compact('name', 'email', 'password', 'active', 'avatar'));
 
             if ($UserData)
             {
-                $user = User::findOrFail($UserData->id);
+                $user = User::findOrFail($UserData->id);                
 
-                // Mail::send('mailing.welcome', ['user' => $user], function ($message) use ($user) {
-                //     $message->from('unicenetwork@gmail.com', 'Administrator');
+                Mail::send('mailing.welcome', ['user' => $user], function ($message) use ($user) {
+                    $message->from('unicecompany@gmail.com', 'nice company');
 
-                //     $message->to($user->email, $user->name)->subject('Register Almost Complete');
-                // });
-
+                    $message->to($user->email, $user->name)->subject('Register Almost Complete');
+                });
 
 
                 return Redirect::route('register')->withMessage('Your Account Has Been Registered Please Check Your Mailbox or Spam.');   
@@ -97,9 +109,9 @@ class RegisterController extends Controller
             return Redirect::route('register')->withMessage('Were Not Found Your Account In our Database,Sorry.');
         }
     }
-    public function resend()
+    public function resend(Request $request)
     {       
-        $data = Input::all();
+        $data = $request->all();
         
         $rules = array(
             'email' => 'required|email',
@@ -113,27 +125,27 @@ class RegisterController extends Controller
         }
         else
         {
-            $exists = DB::table('users')->where('email', '=', Input::get('email'))->exists();
+            $exists = DB::table('users')->where('email', '=', $request->input('email'))->exists();
             if (!$exists) 
             {
                 return Redirect::route('request_mail')->withMessage('Your Email Is Not Registered Yet.');  
             }
             else
             {
-                $result = DB::table('users')->where('email', '=', Input::get('email'))->first();
+                $result = DB::table('users')->where('email', '=', $request->input('email'))->first();
 
                 if ($result)
                 {
                     $user = User::findOrFail($result->id);
 
-                    // Mail::send('mailing.welcome', ['user' => $user], function ($message) use ($user) {
-                    //     $message->from('93israj.alwan.haliri@gmail.com', 'Administrator');
+                    Mail::send('mailing.welcome', ['user' => $user], function ($message) use ($user) {
+                        $message->from('unicecompany@gmail.com', 'nice company');
 
-                    //     $message->to($user->email, $user->name)->subject('Register Almost Complete');
-                    // });
-                    // return Redirect::route('request_mail')->withMessage('We Have Send You An Email,Please Check Your Email.');   
+                        $message->to($user->email, $user->name)->subject('Register Almost Complete');
+                    });
+                    return Redirect::route('request_mail')->withMessage('We Have Send You An Email,Please Check Your Email.');   
 
-                
+
                 }
                 else
                 {
